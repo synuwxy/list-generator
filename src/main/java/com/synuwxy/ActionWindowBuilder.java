@@ -78,9 +78,9 @@ public class ActionWindowBuilder
 			JOptionPane.showMessageDialog(null, "生成目录成功，文件名: 目录.xls", "成功", JOptionPane.INFORMATION_MESSAGE);
 		});
 		
-		JButton button_5 = new JButton("清空文件夹路径");
-		button_5.setFont(new Font("Dialog", Font.PLAIN, 14));
-		button_5.addActionListener(e -> {
+		JButton btnCleanDirPath = new JButton("清空文件夹路径");
+		btnCleanDirPath.setFont(new Font("Dialog", Font.PLAIN, 14));
+		btnCleanDirPath.addActionListener(e -> {
 			directory = "";
 			fileList = null;
 			fileDir = null;
@@ -88,23 +88,14 @@ public class ActionWindowBuilder
 			comboBox.removeAllItems();
 			recordNum.setText("");
 		});
-		JLabel label_5 = new JLabel("本次共复制");
-		label_5.setFont(new Font("Dialog", Font.PLAIN, 14));
+		JLabel label5 = new JLabel("本次共复制");
+		label5.setFont(new Font("Dialog", Font.PLAIN, 14));
 		recordNum = new JTextField();
 		recordNum.setFont(new Font("宋体", Font.PLAIN, 20));
 		recordNum.setColumns(10);
 		
-		JLabel label_6 = new JLabel("条记录");
-		label_6.setFont(new Font("Dialog", Font.PLAIN, 14));
-		
-		JButton button_6 = new JButton("");
-		//隐藏button
-		button_6.setOpaque(false);
-		button_6.setContentAreaFilled(false);
-		button_6.setFont(new Font("Dialog", Font.PLAIN, 14));
-		button_6.addActionListener(e -> {
-
-		});
+		JLabel label6 = new JLabel("条记录");
+		label6.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		dirPath = new JTextField();
 		dirPath.setFont(new Font("宋体", Font.PLAIN, 12));
@@ -129,20 +120,11 @@ public class ActionWindowBuilder
 			}
 		});
 		
-		JButton button_7 = new JButton("");
-		//隐藏button
-		button_7.setOpaque(false);
-		button_7.setContentAreaFilled(false);
-		button_7.setFont(new Font("Dialog", Font.PLAIN, 14));
-		button_7.addActionListener(e -> {
-
-		});
-		
 		JLabel label = new JLabel("选择文件夹");
 		
-		JLabel label_1 = new JLabel("使用说明:");
+		JLabel label1 = new JLabel("使用说明:");
 		
-		JLabel label_2 = new JLabel("软件说明: 目录生成器，功能是将路径下的所有文件生成一个目录");
+		JLabel label2 = new JLabel("软件说明: 目录生成器，功能是将路径下的所有文件生成一个目录");
 		
 		JLabel lblNewLabel = new JLabel("1. 点击输入框选择一个文件夹");
 		
@@ -170,19 +152,19 @@ public class ActionWindowBuilder
                 fileSet.add(file.getName().substring(index+1));
             }
             comboBox.removeAllItems();
-            comboBox.addItem("");
+            comboBox.addItem("any");
             for (String fileType : fileSet) {
                 comboBox.addItem(fileType);
             }
         });
 		
-		JLabel label_3 = new JLabel("2. 点击检测文件类型");
+		JLabel label3 = new JLabel("2. 点击检测文件类型");
 		
-		JLabel label_4 = new JLabel("3. 在下拉框内选择文件类型");
+		JLabel label4 = new JLabel("3. 在下拉框内选择文件类型");
 		
 		JLabel lbloffice = new JLabel("4. 点击按钮选择生成对应的office目录");
-		
-		JLabel label_7 = new JLabel("5. 生成的目录会在选择的文件夹中出现");
+
+		JLabel label7 = new JLabel("5. 生成的目录会在选择的文件夹中出现");
 		
 		GroupLayout groupLayout = new GroupLayout(f.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -194,8 +176,8 @@ public class ActionWindowBuilder
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE)
-								.addComponent(label_1)
-								.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)
+								.addComponent(label1)
+								.addComponent(label2, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(btnword, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
 									.addGap(37)
@@ -203,7 +185,7 @@ public class ActionWindowBuilder
 									.addGap(18)
 									.addComponent(list, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(button_5))
+									.addComponent(btnCleanDirPath))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(label)
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -213,20 +195,17 @@ public class ActionWindowBuilder
 									.addGap(32)
 									.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(label_5)
+									.addComponent(label5)
 									.addGap(14)
 									.addComponent(recordNum, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(label_6))
-								.addComponent(label_3)
-								.addComponent(label_4)
+									.addComponent(label6))
+								.addComponent(label3)
+								.addComponent(label4)
 								.addComponent(lbloffice)
-								.addComponent(label_7)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(50)
-							.addComponent(button_6)))
+								.addComponent(label7)))
+						)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(button_7)
 					.addGap(44))
 		);
 		groupLayout.setVerticalGroup(
@@ -241,34 +220,31 @@ public class ActionWindowBuilder
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(button))
 					.addGap(38)
-					.addComponent(label_2)
+					.addComponent(label2)
 					.addGap(9)
-					.addComponent(label_1)
+					.addComponent(label1)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(label_3)
+					.addComponent(label3)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(label_4)
+					.addComponent(label4)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(lbloffice)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(label_7)
+					.addComponent(label7)
 					.addGap(55)
 					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(btnword)
 						.addComponent(btnexcel)
 						.addComponent(list, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
-						.addComponent(button_5))
+						.addComponent(btnCleanDirPath))
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(button_6)
-						.addComponent(button_7))
 					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(label_5)
+						.addComponent(label5)
 						.addComponent(recordNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_6))
+						.addComponent(label6))
 					.addContainerGap(66, Short.MAX_VALUE))
 		);
 		//设置图标
@@ -277,7 +253,7 @@ public class ActionWindowBuilder
 		//设置布局
 		f.getContentPane().setLayout(groupLayout);
 		//设置大小
-		f.setSize(587, 545);
+		f.setSize(600, 600);
 		//设置打开居中
 		f.setLocationRelativeTo(null);
 		//设置关闭时完全关闭
@@ -315,6 +291,19 @@ public class ActionWindowBuilder
 		fileList = new ArrayList<>();
 		File[] files = fileDir.listFiles();
 		assert files != null;
+		if ("any".equals(type)) {
+			for (File file : files) {
+				if (".".equals(file.getName().substring(0,1))) {
+					continue;
+				}
+				if (getFinalPrintNum(file.getName()) == -1) {
+					continue;
+				}
+				fileList.add(file.getName().substring(0, getFinalPrintNum(file.getName())));
+			}
+			return;
+		}
+
 		for (File file : files) {
 			if(getFinalPrintNum(file.getName()) == -1) {
 				continue;
