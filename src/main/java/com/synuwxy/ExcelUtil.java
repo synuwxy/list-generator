@@ -1,4 +1,4 @@
-package printForOffice;
+package com.synuwxy;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelUtil {
 
-	//工作薄
+		//工作薄
 		private Workbook wb;
 		//页面
 		private Sheet sheet;
@@ -57,7 +57,6 @@ public class ExcelUtil {
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					return -1;
 				}
 		}
 			return fileList.size();

@@ -1,33 +1,16 @@
-package printForOffice;
+package com.synuwxy;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
 
-public class ActionWindowBuilder 
+public class ActionWindowBuilder
 {
 	private JFrame f = new JFrame("目录生成器");
 	private JTextField recordNum;
@@ -39,106 +22,95 @@ public class ActionWindowBuilder
 	private File fileDir;
 
 	
-	public void init()
+	private void init()
 	{
 		
 		JButton btnword = new JButton("生成Word");
-		btnword.setFont(new Font("Dialog", 0, 14));
-		btnword.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(null == fileList) {
-					JOptionPane.showMessageDialog(null, "路径未选择", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				if(0 == fileList.size()) {
-					JOptionPane.showMessageDialog(null, "路径下没有文件", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				WordUtil wu = new WordUtil();
-				int count = wu.getXWPFDocument(directory, fileList);
-				if(count == -1) {
-					JOptionPane.showMessageDialog(null, "生成目录失败", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				recordNum.setText(count+"");
-				JOptionPane.showMessageDialog(null, "生成目录成功，文件名: 目录.doc", "成功", JOptionPane.INFORMATION_MESSAGE);
+		btnword.setFont(new Font("Dialog", Font.PLAIN, 14));
+		btnword.addActionListener(e -> {
+			if(null == fileList) {
+				JOptionPane.showMessageDialog(null, "路径未选择", "错误", JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
-		});
-		
-		final JComboBox<String> comboBox = new JComboBox<String>(new DefaultComboBoxModel<String>());
-		comboBox.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				
-				switch(e.getStateChange()){
-					case ItemEvent.SELECTED:
-						fillFileList(e.getItem().toString());
-						break;
-					case ItemEvent.DESELECTED:
-						break;
-				}
+			if(0 == fileList.size()) {
+				JOptionPane.showMessageDialog(null, "路径下没有文件", "错误", JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
+			WordUtil wu = new WordUtil();
+			int count = wu.getXWPFDocument(directory, fileList);
+			if(count == -1) {
+				JOptionPane.showMessageDialog(null, "生成目录失败", "错误", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			recordNum.setText(count+"");
+			JOptionPane.showMessageDialog(null, "生成目录成功，文件名: 目录.doc", "成功", JOptionPane.INFORMATION_MESSAGE);
 		});
+		final JComboBox<String> comboBox = new JComboBox<>(new DefaultComboBoxModel<>());
+		comboBox.addItemListener(e -> {
+            switch(e.getStateChange()){
+                case ItemEvent.SELECTED:
+                    fillFileList(e.getItem().toString());
+                    break;
+                case ItemEvent.DESELECTED:
+                    break;
+				default:break;
+            }
+        });
 		
 		JButton btnexcel = new JButton("生成Excel");
-		btnexcel.setFont(new Font("Dialog", 0, 14));
-		btnexcel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(null == fileList) {
-					JOptionPane.showMessageDialog(null, "路径未选择", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				if(0 == fileList.size()) {
-					JOptionPane.showMessageDialog(null, "路径下没有文件", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				ExcelUtil eu = new ExcelUtil();
-				int count = eu.getHSSFWorkbook(directory, fileList);
-				if(count == -1) {
-					JOptionPane.showMessageDialog(null, "生成目录失败", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				recordNum.setText(count+"");
-				JOptionPane.showMessageDialog(null, "生成目录成功，文件名: 目录.xls", "成功", JOptionPane.INFORMATION_MESSAGE);
+		btnexcel.setFont(new Font("Dialog", Font.PLAIN, 14));
+		btnexcel.addActionListener(e -> {
+			if(null == fileList) {
+				JOptionPane.showMessageDialog(null, "路径未选择", "错误", JOptionPane.INFORMATION_MESSAGE);
+				return;
 			}
+			if(0 == fileList.size()) {
+				JOptionPane.showMessageDialog(null, "路径下没有文件", "错误", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			ExcelUtil eu = new ExcelUtil();
+			int count = eu.getHSSFWorkbook(directory, fileList);
+			if(count == -1) {
+				JOptionPane.showMessageDialog(null, "生成目录失败", "错误", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			recordNum.setText(count+"");
+			JOptionPane.showMessageDialog(null, "生成目录成功，文件名: 目录.xls", "成功", JOptionPane.INFORMATION_MESSAGE);
 		});
 		
 		JButton button_5 = new JButton("清空文件夹路径");
-		button_5.setFont(new Font("Dialog", 0, 14));
-		button_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				directory = "";
-				fileList = null;
-				fileDir = null;
-				dirPath.setText(directory);
-				comboBox.removeAllItems();
-				recordNum.setText("");
-			}
+		button_5.setFont(new Font("Dialog", Font.PLAIN, 14));
+		button_5.addActionListener(e -> {
+			directory = "";
+			fileList = null;
+			fileDir = null;
+			dirPath.setText(directory);
+			comboBox.removeAllItems();
+			recordNum.setText("");
 		});
 		JLabel label_5 = new JLabel("本次共复制");
-		label_5.setFont(new Font("Dialog", 0, 14));
+		label_5.setFont(new Font("Dialog", Font.PLAIN, 14));
 		recordNum = new JTextField();
 		recordNum.setFont(new Font("宋体", Font.PLAIN, 20));
 		recordNum.setColumns(10);
 		
 		JLabel label_6 = new JLabel("条记录");
-		label_6.setFont(new Font("Dialog", 0, 14));
+		label_6.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		JButton button_6 = new JButton("");
 		//隐藏button
 		button_6.setOpaque(false);
 		button_6.setContentAreaFilled(false);
-		button_6.setFont(new Font("Dialog", 0, 14));
-		button_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+		button_6.setFont(new Font("Dialog", Font.PLAIN, 14));
+		button_6.addActionListener(e -> {
+
 		});
 		
 		dirPath = new JTextField();
 		dirPath.setFont(new Font("宋体", Font.PLAIN, 12));
 		dirPath.setColumns(10);
 		dirPath.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e){
 				// 选择文件夹
 				if (null == directory || "".equals(directory) ){
@@ -161,11 +133,9 @@ public class ActionWindowBuilder
 		//隐藏button
 		button_7.setOpaque(false);
 		button_7.setContentAreaFilled(false);
-		button_7.setFont(new Font("Dialog", 0, 14));
-		button_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+		button_7.setFont(new Font("Dialog", Font.PLAIN, 14));
+		button_7.addActionListener(e -> {
+
 		});
 		
 		JLabel label = new JLabel("选择文件夹");
@@ -176,36 +146,35 @@ public class ActionWindowBuilder
 		
 		JLabel lblNewLabel = new JLabel("1. 点击输入框选择一个文件夹");
 		
-		JList<Object> list = new JList<Object>();
+		JList<Object> list = new JList<>();
 		
 		
 		
 		JButton button = new JButton("检测文件类型");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(null== fileDir || !fileDir.exists()){
-					JOptionPane.showMessageDialog(null, "路径未选择", "错误", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				fileList = new ArrayList<String>();
-				Set<String> fileSet = new HashSet<String>();
-				File[] files = fileDir.listFiles();
-				for (File file : files) {
-					if(file.getName().indexOf(".") == -1){
-						continue;
-					}
-					int index = getFinalPrintNum(file.getName());
-					
-					fileList.add(file.getName());
-					fileSet.add(file.getName().substring(index+1));
-				}
-				comboBox.removeAllItems();
-				comboBox.addItem("");
-				for (String fileType : fileSet) {
-					comboBox.addItem(fileType);
-				}
-			}
-		});
+		button.addActionListener(e -> {
+            if(null== fileDir || !fileDir.exists()){
+                JOptionPane.showMessageDialog(null, "路径未选择", "错误", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            fileList = new ArrayList<>();
+            Set<String> fileSet = new HashSet<>();
+            File[] files = fileDir.listFiles();
+            assert files != null;
+            for (File file : files) {
+                if(!file.getName().contains(".")){
+                    continue;
+                }
+                int index = getFinalPrintNum(file.getName());
+
+                fileList.add(file.getName());
+                fileSet.add(file.getName().substring(index+1));
+            }
+            comboBox.removeAllItems();
+            comboBox.addItem("");
+            for (String fileType : fileSet) {
+                comboBox.addItem(fileType);
+            }
+        });
 		
 		JLabel label_3 = new JLabel("2. 点击检测文件类型");
 		
@@ -217,13 +186,13 @@ public class ActionWindowBuilder
 		
 		GroupLayout groupLayout = new GroupLayout(f.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(50)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE)
 								.addComponent(label_1)
 								.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)
@@ -233,13 +202,13 @@ public class ActionWindowBuilder
 									.addComponent(btnexcel, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
 									.addComponent(list, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(button_5))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(label)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 									.addComponent(dirPath, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+								.addGroup(GroupLayout.Alignment.TRAILING, groupLayout.createSequentialGroup()
 									.addComponent(button)
 									.addGap(32)
 									.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
@@ -256,47 +225,47 @@ public class ActionWindowBuilder
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(50)
 							.addComponent(button_6)))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(button_7)
 					.addGap(44))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(43)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(label)
 						.addComponent(dirPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(button))
 					.addGap(38)
 					.addComponent(label_2)
 					.addGap(9)
 					.addComponent(label_1)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(label_3)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(label_4)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(lbloffice)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(label_7)
 					.addGap(55)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(btnword)
 						.addComponent(btnexcel)
 						.addComponent(list, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
 						.addComponent(button_5))
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(button_6)
 						.addComponent(button_7))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(label_5)
 						.addComponent(recordNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(label_6))
@@ -332,7 +301,7 @@ public class ActionWindowBuilder
 		new ActionWindowBuilder().init();
 	}
 	
-	public int getFinalPrintNum(String fileName){
+	private int getFinalPrintNum(String fileName){
 		char[] ch = fileName.toCharArray();
 		int i = ch.length-1;
 		for(;i >=0;i--){
@@ -342,18 +311,19 @@ public class ActionWindowBuilder
 		}
 		return i;
 	}
-	public void fillFileList (String type){
-		fileList = new ArrayList<String>();
+	private void fillFileList(String type){
+		fileList = new ArrayList<>();
 		File[] files = fileDir.listFiles();
+		assert files != null;
 		for (File file : files) {
 			if(getFinalPrintNum(file.getName()) == -1) {
 				continue;
 			}
 			String fileType = file.getName().substring(getFinalPrintNum(file.getName())+1);
-			if(file.getName().indexOf(".") == -1){
+			if(!file.getName().contains(".")){
 				continue;
 			}
-			else if(fileType.equals("") || (!"".equals(type) && !fileType.equals(type))){
+			else if("".equals(fileType) || (!"".equals(type) && !fileType.equals(type))){
 				continue;
 			}
 			fileList.add(file.getName().substring(0, getFinalPrintNum(file.getName())));
